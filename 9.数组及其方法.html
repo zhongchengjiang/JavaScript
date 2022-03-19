@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <title>数组</title>
+        <script>
+            //创建数组1
+            var arr = new Array();
+             arr.length = 5;
+             arr[0] = 1;
+             arr[1] = 2;
+             arr[2] = 3;
+             arr[3] = 4;
+             arr[4] = 5;
+             //向数组的最后一位添加元素
+             arr[arr.length] = 7;
+             console.log(arr[5]);
+             //创建数组2(常用)
+             var arr2 = [2, 3, 8, 4];
+             console.log(arr2[2]);
+             //创建数组3
+             var arr3 = new Array(20,30,16);
+             //创建长度为5的数组，而不是第一个元素是5
+             var arr4 = new Array(5);
+             console.log(arr4.length);
+             //数组中的元素可以为任意数据类型,包括对象、函数、数组
+             var arr5 = [1, true, undefined, "hello"];
+             var obj = {name:"孙悟空"};
+             arr5[arr5.length] = obj;
+             console.log(arr5[4]);
+
+
+             //数组的常用方法
+             arr6 = [15,30,45,"猪八戒"];
+
+             //push()：向数组末尾添加多个元素，并返回数组长度
+             result1 = arr6.push("唐僧",80,25);
+             console.log(arr6);  //[15, 30, 45, '猪八戒', '唐僧', 80, 25]
+             console.log("新数组长度为："+result1); //新数组长度为：7
+
+             //pop()：删除数组的最后一个元素，并返回该元素
+             result2 = arr6.pop();
+             console.log(arr6);    // [15, 30, 45, '猪八戒', '唐僧', 80]
+             console.log(result2);   //25
+             
+             //unshift()：向数组的开头添加多个元素，并返回数组长度
+             //           其他元素的索引会依次向后调整
+             result3 = arr6.unshift("蜘蛛精",14);
+             console.log(arr6);  //['蜘蛛精', 14, 15, 30, 45, '猪八戒', '唐僧', 80]
+             console.log("新数组长度为："+result3); //"新数组长度为8
+
+             //shift()：删除数组的第一个元素，并返回该元素
+             result4 = arr6.shift();
+             console.log(arr6);  //[14, 15, 30, 45, '猪八戒', '唐僧', 80]
+             console.log(result4);  //蜘蛛精 
+
+              //slice()：不改变原数组，从数组中提取指定元素并将其返回；
+             //          参数1：截取开始位置的索引，参数2：截取结束位置的索引；
+             //          包含开始索引，不包含结束索引
+             //          结束索引可以省略，此时会截取从开始索引往后的所有元素
+             //          可以传递一个负值，表示从后往前计算位置
+             console.log(arr6.slice(1,-1));  // [15, 30, 45, '猪八戒', '唐僧']
+             
+             //splice()：会改变原数组，删除数组中的指定元素并将其返回;
+             //          参数1：开始位置的索引，参数2：删除的数量，值为0表示不删除；
+             //          包含开始索引；
+             console.log(arr6);              //[14, 15, 30, 45, '猪八戒', '唐僧', 80]
+             console.log( arr6.splice(0,3)); //[14, 15, 30]
+             console.log(arr6);              //[45, '猪八戒', '唐僧', 80]
+             //参数3及以后：传递新元素，这些元素会自动插入并替换被删除的元素，保留在删除之后的数组中
+             console.log(arr6.splice(1,2,"牛魔王","蜘蛛精")); //['猪八戒', '唐僧']
+             console.log(arr6);              //[45, '牛魔王', '蜘蛛精', 80]
+             arr6.splice(2,0,"二郎神",20,30); //表示在arr6[2]的位置插入后面三个元素
+             console.log(arr6);           //[45, '牛魔王', '二郎神', 20, 30, '蜘蛛精', 80]
+            
+            //concat()：不改变原数组，连接两个或多个数组，并返回新数组
+            //          内部的参数可以是数组或者元素；
+            var arr7 = [1,4,3,7];
+            var arr8 = ["蜘蛛精","玉兔精"];
+            var arr9 = [15,24,38];
+            console.log(arr7.concat(arr8));  //[1, 4, 3, 7, '蜘蛛精', '玉兔精']
+            console.log(arr7.concat(arr8,arr9,"牛魔王")); //[1, 4, 3, 7, '蜘蛛精', '玉兔精', 15, 24, 38, '牛魔王']
+
+            //join()：不改变原数组，将数组转换为字符串并将其返回
+            //  参数：字符串作为参数，用作原数组元素间的连接符；
+            //       如果不指定连接符，则默认使用 ，连接；
+            console.log(arr8.join("~"));  //蜘蛛精~玉兔精
+
+            //reverse()：会改变原数组，用于反转数组并将其返回
+            console.log(arr7.reverse());  //[7, 3, 4, 1]
+            console.log(arr7);            //[7, 3, 4, 1]
+
+             //sort()：会改变原数组，对数组默认按照Uicode编码排序；
+             //        可以添加回调函数指定排序规则：
+             //        回调函数需定义两个形参；
+             //        浏览器将会分别使用数组中的两个元素去调用回调函数；
+             //        浏览器根据回调函数的返回值来决定元素的顺序：
+             //        若返回一个大于0的值，则元素交换位置；
+             //        若返回一个小于0的值，则元素不交换位置；
+             //        若返回0，则元素不交换位置；
+             //        总结：如果需要升序排列，则返回a-b；
+             //              如果需要降序排列，则返回b-a;
+            var resu = arr7.sort(function(a, b){
+                return a-b;   //升序：[1, 3, 4, 7]
+            //  return b-a;   //降序：[7, 4, 3, 1]
+             });
+             
+             
+
+        </script>
+    </head>
+    <body>
+        
+    </body>
+</html>

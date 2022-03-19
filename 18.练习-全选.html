@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>全选练习</title>
+        <script>
+            window.onload = function(){
+                //设置单击函数
+                function checkbtn(btnStr, fun){
+                    var btn = document.getElementById(btnStr);
+                    btn.onclick = fun;
+                }
+                var items = document.getElementsByName("items");
+                var checkedAllbox = document.getElementById("checkedAllbox");
+                //全选操作
+                checkbtn("checkedAllbtn", function(){
+                    for(var i=0; i<items.length; i++)
+                        items[i].checked = true;
+                        checkedAllbox.checked = true;
+                    });
+                    
+                    //全不选操作
+                    checkbtn("checkedNobtn", function(){
+                        for(var i=0; i<items.length; i++)
+                        items[i].checked = false;
+                        checkedAllbox.checked = false;
+                });
+                
+                //反选操作
+                checkbtn("checkedRevbtn", function(){
+                    checkedAllbox.checked = true;
+                    for(var i=0; i<items.length; i++){
+                        items[i].checked = !items[i].checked;  
+                        //判断全选/全不选框的状态
+                        if(!items[i].checked)
+                            checkedAllbox.checked = false; 
+                    }
+                });
+
+                //提交操作
+                checkbtn("sendBtn", function(){
+                    for(var i=0; i<items.length; i++){
+                        if(items[i].checked)
+                            alert(items[i].value);
+                    }
+                });
+
+                // 全选/全不选操作1（点击checkedAllbox按钮时，items按钮有相应变化）
+                checkbtn("checkedAllbox", function(){
+                    //全选
+                    for(var i=0; i<items.length; i++)
+                        items[i].checked = this.checked;   
+                });
+                // 全选/全不选操作2
+                //如果四个多选框都选中，则checkedAllbox也应该选中；
+                //如果四个多选框没都选中，则checkedAllbox也不应该选中；
+                
+                //该for循环中要对每个多选框设置单击相应函数
+                for(var i=0; i<items.length; i++){
+                    items[i].onclick = function(){
+                        //设置checkedAllbox为选中状态   
+                        checkedAllbox.checked = true; 
+                        //判断四个多选框是否全选
+                        for(var j=0; j<items.length; j++){
+                            if(!items[j].checked){
+                                checkedAllbox.checked = false; 
+                                //一旦进入判断就不用再继续执行循环
+                                break;
+                            }
+                        };
+                    };
+                }
+                
+                
+            };
+        </script>
+    </head>
+    <body>
+        <form mathod="post" action="">
+            你爱好的运动是？<input type="checkbox" id="checkedAllbox">全选/全不选
+            <br>
+            <input type="checkbox" name="items" value="足球" >足球
+            <input type="checkbox" name="items" value="篮球" >篮球
+            <input type="checkbox" name="items" value="羽毛球" >羽毛球
+            <input type="checkbox" name="items" value="乒乓球" >乒乓球
+            <br><br>
+            <input type="button" id="checkedAllbtn" value="全选">
+            <input type="button" id="checkedNobtn" value="全不选">
+            <input type="button" id="checkedRevbtn" value="反选">
+            <input type="button" id="sendBtn" value="提交">
+        </form>
+    </body>
+    </html>

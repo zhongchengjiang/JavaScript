@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"> 
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>DOM简介</title>
+        <script type="text/javascript">
+            //文档的加载：浏览器按照自上至下的顺序加载页面，读取一行就运行一行；
+            //           如果将script标签写在页面的上面，在代码执行时页面还未加载；
+            //           可以为window绑定onload事件，使页面加载以后才执行onload里的代码；
+            window.onload = function(){
+                //文档节点：由浏览器提供的代表整个网页，是window对象的属性
+                //getElementById：获取id属性
+                var btn = document.getElementById("btn");
+                //innerHTML：修改文本内容
+                btn.innerHTML = "I'm button";
+                
+                //事件：用户和浏览器的交互行为；
+                //     在事件的对应属性中加入js代码，事件被触发时就会执行这些代码；
+                //单击响应函数：为单击事件绑定的函数
+                btn.onclick = function(){
+                };
+            };
+            </script>
+    </head>
+    <body>
+            <button id="btn">按钮</button>
+    </body>
+</html>

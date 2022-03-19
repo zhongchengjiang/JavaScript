@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <title>坐标随指针的移动而变化</title>
+        <script type="text/javascript">
+            //鼠标在areaDiv中移动，在showMsg中显示坐标变化
+            window.onload = function(){
+                var areaDiv = document.getElementById("areaDiv");
+                var showMsg = document.getElementById("showMsg");
+            /*
+              onmousemove：鼠标在元素中移动时会触发该事件；
+              事件对象：(1)当事件的响应函数被触发时，浏览器每次都会将一个事件对象event
+                          作为实参传递给响应函数；
+                       (2)在事件对象中，封装了与当前事件相关的一切信息，
+                          如：鼠标的坐标，键盘哪个按键被按下，鼠标滚轮滚动的方向。。。
+                       (3)而在IE8及以下的浏览器中，响应函数被触发时，浏览器不会传递事件对象；
+                          而是将事件对象作为window对象的属性保存；    
+              clientX 和 clientY : 获取鼠标指针在当前可见窗口的水平和垂直坐标； 
+              pageX 和 pageY ：获取鼠标指针在当前的整个页面的坐标；           
+                           
+             */    
+                areaDiv.onmousemove = function(event){
+                /*************** 处理事件对象的兼容性问题 ********************/
+                    event = event || window.event;
+                    //获取鼠标指针的坐标
+                    var x = event.clientX;
+                    var y = event.clientY;
+                    showMsg.innerHTML = "(x = "+x+", y = "+y+")";    
+                };
+            };
+        </script>
+        <style type="text/avascript">
+            #areaDiv{
+                width: 300px;
+                height: 300px;
+                background-color: #bfa;
+                border: 1px solid black;
+                margin-bottom: 15px;
+            }
+            #showMsg{
+                width: 300px;
+                height: 50px;
+                border: 1px solid black;
+                text-align: center;
+                line-height: 50px;
+            }
+
+        </style>
+    </head>
+    <body>
+        <div id="areaDiv"></div>
+        <div id="showMsg"></div>
+    </body>
+</html>

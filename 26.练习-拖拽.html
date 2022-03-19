@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>事件练习（拖拽）</title>
+        <script type="text/javascript">
+            window.onload = function(){
+                var box1 = document.getElementById("box1");
+                drag(box1);
+                drag(box2);
+            };
+
+            //创建专门用于拖拽的函数
+            function drag(obj){
+                //1.当鼠标在被拖拽元素上按下时，开始拖拽
+                obj.onmousedown = function(event){
+                    /*拖拽异常处理 方法二(IE8及以下) 步骤1: 
+                      当调用一个元素的setCapture()方法后，这个元素将会把下一次所有鼠标
+                      按下相关的事件都捕获到自己身上；
+                      这种方法只有IE支持，在火狐中不会报错，而在Chrome中调用会报错,
+                      所以作如下兼容性调整*/
+                    obj.setCapture && obj.setCapture();
+
+                    event = event || window.event;
+                    //鼠标被按下的同时，求出鼠标指针和obj偏移量的距离
+                    var ol = event.clientX  - obj.offsetLeft;
+                    var ot = event.clientY - obj.offsetTop;
+                //2.当鼠标移动时，被拖拽元素跟随鼠标一起移动
+                    document.onmousemove = function(event){
+                        event = event || window.event;
+                        //获取鼠标坐标
+                        /* 修改obj的偏移量(当前鼠标的坐标位置减去先前求出的距离，
+                           可以保证鼠标在obj任何地方按下的同时，都不会改变obj的位置) */
+                        var left = event.clientX - ol;
+                        var top = event.clientY - ot;   
+                        obj.style.left = left + "px";
+                        obj.style.top = top + "px";
+                //3.当鼠标松开时，被拖拽元素固定在当前位置
+                /*(为document绑定，如果给obj绑定的话，box2会挡住obj) */
+                        document.onmouseup = function(){
+                            //取消document的onmousemove事件，就可以保证鼠标不动了
+                            document.onmousemove = null;
+                            //取消document的onmouseup事件，因为鼠标松开之后，这两个事件已经没有意义了
+                            document.onmouseup = null;
+
+                /* 拖拽异常处理 方法二(IE8及以下) 步骤2:  当鼠标松开时，取消对其他事件的捕获*/  
+                            obj.releaseCapture && obj.releaseCapture();
+                        };
+                    };    
+
+                /* 当拖拽一个网页的内容时，浏览器会默认搜索引擎中的拖拽内容，会导致拖拽异常 */
+                /* 拖拽异常处理 方法一(正常浏览器)：
+                   通过 return false 的方式取消该默认行为 */   
+                   //return false;
+                };
+            }
+        </script>
+
+        <style type="text/css">
+            #box1{
+                width: 100px;
+                height: 100px;
+                background-color: yellowgreen;
+                position: absolute;
+            }
+            #box2{
+                width: 100px;
+                height: 100px;
+                background-color: pink;
+                position: absolute;
+                top: 150px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="box1"></div>
+        <div id="box2"></div>
+    </body>
+</html>

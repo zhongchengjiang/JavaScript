@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>JS函数练习</title>
+        <script>
+            //创建函数 
+            //方法一(不常用)
+            var fun1 = new Function();
+            //方法二（函数声明，结尾不带分号）
+            function fun2(){
+                console.log("这是fun2");
+            }
+            //方法三(函数表达式，结尾带分号)
+            var fun3 = function(){
+                console.log("这是fun3");
+            };
+            
+            //调用fun2函数
+            fun2();      //结果：这是fun2
+            fun3();      //结果：这是fun3  
+
+            //匿名函数：function(){  }
+
+            //函数的参数
+            function sum(a, b){
+                return a+b;
+            }
+            var c = sum(2,false);
+            console.log(c); //结果：2
+            
+            function sayHello(o){
+                console.log("o.name="+o.name);    
+            }
+            var obj = {
+                name: "孙悟空",
+                age: 26,
+                gender: "女"
+            }
+            sayHello(obj);
+            
+            //立即执行函数: (funciton(形参){函数体})(实参)
+            (function(a, b){
+                console.log(a+b);
+            })(12, 23);
+
+            //函数作为对象的方法
+            var obj2 = {
+                name: "孙悟空",
+                age: 25,
+                gender: "男",
+                active:function(name, age, gender){
+                    console.log(obj2.name+","+obj2.age+"岁,是个"+obj2.gender+"的");
+                }
+            };
+            //调用方法
+           console.log(obj2.active("猪八戒", 18, "男"));
+
+           //for...in：枚举(遍历)对象中的属性，循环的次数为属性的个数
+            for(var n in obj2){
+                console.log("属性名："+n);
+                console.log("属性值："+obj2[n]);
+            }
+
+            //函数的方法
+            //1.call()和apply()：this中提到该知识点；
+
+            //2.arguments()
+            //  在调用函数时，浏览器每次都会传递两个隐含参数：
+            //  (1)函数的上下文对象--this；
+            //  (2)封装实参的对象--arguments，
+            //     在调用函数时，所传递的实参都会封装在arguments中；
+            //     它是一个类数组对象，可以通过索引操作数据，也可以获取长度；
+            //     即使不定义形参也可以通过arguments使用实参；
+            //     它有一个属性callee，其对应当前正在指向的函数对象；
+            //  (3)大多用来针对同个方法多处调用并且传递参数个数不一样时进行使用,如递归调用;
+            function fun(){
+                console.log(arguments.length);  //3
+                console.log(arguments[0]);      //hello
+                console.log(arguments.callee == fun); //true
+            }
+            fun("hello",true,20);
+
+            //arguments的应用
+            //可以把arguments类数组当作参数直接在函数创建的时候使用，
+            //这样在调用时可以直接执行函数；
+            function add(){
+                var sum = 0;
+                var len = arguments.length;
+                for(;len--;)
+                    sum += arguments[len];
+                return sum;
+            }
+            console.log(add(2, 3, 2));
+            
+
+        </script>
+    </head>
+    <body>
+        
+    </body>
+</html>

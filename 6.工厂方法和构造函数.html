@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>工厂方法与构造函数</title>
+        <script>
+            //1.使用工厂方法创建对象
+            function createPerson(name, age, gender){
+                //创建一个新的对象
+                var ob = new Object();
+                //向对象中添加属性和方法
+                ob.name = name;
+                ob.age = age;
+                ob.gender = gender;
+                ob.sayName = function(){
+                    console.log(this.name);
+                }
+                //将新对象返回
+                return ob;
+            }
+            var ob2 = createPerson("孙悟空", 18, "男");
+            var ob3 = createPerson("猪八戒", 25, "男");
+            var ob4 = createPerson("沙和尚", 16, "男");
+            console.log(ob2);
+            console.log(ob3);
+            console.log(ob4);
+            ob2.sayName();
+
+            //2.使用构造函数创建对象
+            /*  构造函数就像模具，每一个实例都出自同一个模具，并且模具上的印记也会被复刻到每一个模型中
+                this就相当于这个印记 */
+            //构造函数和普通函数类似，区别在于：
+
+            //(一)创建构造函数时，函数名的首字母要大写
+            function Person(name, age, gender){
+                this.name = name;
+                this.age = age;
+                this.gender = gender;
+                this.sayName = function(){
+                    console.log(this.name);
+                }
+            }
+            //(二)调用时，普通函数直接调用，构造函数需要使用new关键字调用；
+
+            //(三)构造函数的执行过程：
+            //(1)调用构造函数时，会立即创建一个新的对象(如per)；
+            //(2)将新建的对象(per)设置为this，在构造函数中可以使用this引用新建的对象；
+            //(3)逐行执行函数中的代码；
+            //(4)将新建的对象(per)作为返回值返回；
+            var per = new Person("唐三藏", 34, "男"); 
+            var per2 = new Person("玉兔精", 14, "女"); 
+
+            //(四)使用同一个构造函数创建的对象，称为实例(或一类对象)，构造函数称为一个类；
+            console.log(per);  //Person {name: '唐三藏', age: 34, gender: '男', sayName: ƒ}
+            console.log(per2);  //Person {name: '玉兔精', age: 14, gender: '女', sayName: ƒ}
+
+            //instanceof：检查一个对象是否为一个类的实例
+            console.log(per instanceof Person); //true
+
+            //所有的对象都是Object的后代，所有的类都是Object的子类；
+            console.log(per2 instanceof Object); //true
+
+        </script>
+    </head>
+    <body>
+        
+    </body>
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>添加删除记录练习</title>
+
+        <script type="text/javascript">
+            //创建删除tr的响应函数
+            function delA(){
+                //根据allA获取名字 
+                var name = this.parentNode.parentNode.children[0].innerHTML;
+                //或者 var name = this.parentNode.parentNode.getElementsByTagName("td")[0].innerHTML;
+                /* confirm(): 用于弹出一个带有确认和取消的提示框，
+                                字符串作为参数用于提示文字，
+                                其返回值true和false分别对应确认和取消；
+                */
+                var flag = confirm("是否确认删除"+name+"？");
+                if(flag)
+                this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode);
+                //在响应函数最后可以通过return false取消超链接的默认行为(自动跳转)
+                return false;
+        };
+
+            window.onload = function(){
+                //添加记录（方法一，复杂、逐步嵌套不推荐）
+                var addEmpButton01 = document.getElementById("addEmpButton01");
+                addEmpButton01.onclick = function(){
+                    //1.获取输入框中的内容
+                    var name = document.getElementById("empName").value;
+                    var email = document.getElementById("email").value;
+                    var salary = document.getElementById("salary").value;
+                    //2.创建对应的单元格
+                    var empTd = document.createElement("td");
+                    var emaiTd = document.createElement("td");
+                    var salTd = document.createElement("td");
+                    var aTd = document.createElement("td");
+                    //3.将输入框的输入内容添加到对应的单元格中
+                    empTd.innerHTML = name;
+                    emaiTd.innerHTML = email;
+                    salTd.innerHTML = salary;
+                    //  创建新的超链接a并添加到aTd中
+                    var a = document.createElement("a");
+                    a.innerText = "Delete";
+                    a.href = "javascript";
+                    aTd.appendChild(a);
+                    /* 
+                      因为删除操作中的超链接是在页面加载的同时绑定单击响应函数的，
+                      而此处的新超链接是后来添加的，所以这些超链接不会触发单击响应函数，
+                      故需要再次单独为这些新的超链接绑定单击事件；
+                    */
+                    a.onclick = delA;
+                    //4.创建新行
+                    var tr = document.createElement("tr");
+                    //5.将创建好的单元格依次添加到tr下
+                    tr.appendChild(empTd);
+                    tr.appendChild(emaiTd);
+                    tr.appendChild(salTd);
+                    tr.appendChild(aTd);
+                    //6.将tr添加至原表格的tbody中
+                    //  获取table的id标签
+                    var employeeTable = document.getElementById("employeeTable");
+                    //  获取table下第一个tbody标签
+                    var tbody = employeeTable.getElementsByTagName("tbody")[0];
+                    //  将新创建的tr添加到tbody中
+                    tbody.appendChild(tr);
+                };
+
+
+                //添加记录（方法二，推荐）
+                var addEmpButton02 = document.getElementById("addEmpButton02");
+                addEmpButton02.onclick = function(){
+                    //获取文本框的内容
+                    var name = document.getElementById("empName").value;
+                    var email = document.getElementById("email").value;
+                    var salary = document.getElementById("salary").value;
+                    //创建tr行
+                    var tr = document.createElement("tr");
+                    //将文本框的内容添加到tr中
+                    tr.innerHTML = "<td>"+name+"</td>"+
+                                   "<td>"+email+"</td>"+
+                                   "<td>"+salary+"</td>"+
+                                   "<td><a href='deleteEmp?' id='01'>Delete</a></td>";
+                    //再次为新创建的超链接绑定单击事件
+                    var a = tr.getElementsByTagName("a")[0];
+                    a.onclick = delA;               
+                    //获取table下的第一个tbody标签（注意：是类数组，[0]要带上）
+                     var employeeTable = document.getElementById("employeeTable");
+                     var tbody = employeeTable.getElementsByTagName("tbody")[0];
+                     //将新建的tr添加到tbody下
+                     tbody.appendChild(tr);
+                };
+
+                //删除记录
+                //获取所有的超链接
+                var allA = document.getElementsByTagName("a");
+                for(var i=0; i<allA.length; i++){
+                    /* 
+                    注意这里要用this（this在顶部的delA函数中）而不能用allA[i]：
+                    for循环在页面加载完成后立即执行，而响应函数在超链接被点击时才执行，
+                    当响应函数执行时，for循环早已执行完毕，此时i的值已经是3了
+                    */
+                    allA[i].onclick = delA;
+                }
+            };
+        </script>
+        
+        <style>
+            #formDiv{
+                border: 1px black solid;
+                width: 300px;
+                margin-top: 20px;
+            }
+            #employeeTable{
+                border: 1px black solid;
+                width: 300px;
+                vertical-align: top;
+                text-align: center;
+                border-spacing: 0;
+            }
+            #employeeTable td{
+                border: 1px black solid;
+                border-right: none;
+                border-bottom: none;
+            }
+        </style>
+    </head>
+    <body>
+        <table id="employeeTable">
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Salary</th>
+                <th>&nbsp;</th>
+            </tr>
+            <tr>
+                <td>Tom</td>
+                <td>tom@tom.com</td>
+                <td>5000</td>
+                <td><a href="deleteEmp?" id="01">Delete</a></td>
+            </tr>
+            <tr>
+                <td>Jerry</td>
+                <td>jerry@jerry.com</td>
+                <td>8000</td>
+                <td><a href="deleteEmp?" id="02">Delete</a></td>
+            </tr>
+            <tr>
+                <td>Bob</td>
+                <td>bob@bob.com</td>
+                <td>10000</td>
+                <td><a href="deleteEmp?" id="03">Delete</a></td>
+            </tr>
+        </table>
+
+        <div id="formDiv">
+            <h4>添加新员工 :</h4>
+            <table>
+                <tr>
+                    <td class="word">name: </td>
+                    <td class="inp">
+                        <input type="text" name="empName" id="empName">
+                    </td>
+                </tr>
+                <tr>
+                    <td class=word">email: </td>
+                    <td class="inp">
+                        <input type="text" name="email" id="email">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="word">salary: </td>
+                    <td class="inp">
+                        <input type="text" name="salary" id="salary">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center">
+                        <button id="addEmpButton01" value="abc">Submit(方法一)</button>
+                        <button id="addEmpButton02" value="abc">Submit(方法二)</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </body>
+</html>

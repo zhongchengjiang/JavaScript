@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>定时调用</title>
+        <script type="text/javascript">
+            /* setInterval()
+               - 定时调用，可以将一个函数每隔一段时间执行一次；
+               - 参数：
+                 (1)回调函数：该函数会每隔一段时间被调用一次； 
+                 (2)每次调用间隔的时间，单位：毫秒；
+               - 返回值：返回一个Number类型的数字，用于作为定时器的唯一标识；
+
+               clearInterval()
+               - 关闭定时器,一般在需要关闭的定时器的回调函数中使用；
+               - 参数：需要关闭的定时器的标识；
+
+               setTimeout()
+               - 延时调用：用法和定时调用一样，不同的是函数不立即执行，
+                          而是隔断时间之后再执行且只会执行一次；
+
+               clearTimeout()
+               - 关闭延时器
+
+               延时调用和定时调用的联系和区别：
+               二者可以互相代替，实际开发中可根据实际情况使用；
+               定时调用会执行多次，延时调用只会执行一次；
+             */
+            window.onload = function(){
+                var count = document.getElementById("count");
+                var num = 1;
+                var timer = setInterval(function(){
+                    count.innerHTML = num++;
+                    //在定时器回调函数中设置一个clearInterval(),当大于10时，关闭定时器
+                    if(count.innerHTML >= 10)
+                        clearInterval(timer);
+                }, 1000);
+
+                //3s之后再执行计数器函数，且只执行一次
+                var timer2 = setTimeout(function(){
+                    console.log(num++);
+                }, 3000);
+                clearTimeout(timer2);
+            };
+
+        </script>
+    </head>
+    <body>
+        <h1 id="count">1</h1>
+    </body>
+</html>

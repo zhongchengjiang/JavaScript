@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>轮播图</title>
+        <script type="text/javascript" src="tools.js"></script>
+        <script type="text/javascript">
+            window.onload = function(){
+                var imgList = document.getElementById("imgList");
+                var imgArr = document.getElementsByTagName("img");
+                var navDiv = document.getElementById("navDiv");
+                var allA = document.getElementsByTagName("a");
+                //设置图片列表的宽度
+                imgList.style.width = 305 * imgArr.length + "px";
+                //设置导航条的宽度
+                navDiv.style.width = 15 * allA.length + "px"; 
+                //默认显示图片的索引
+                var index = 0;
+                allA[index].style.backgroundColor = "blue";
+                //设置定时器标识
+                var timer;
+                //函数调用：点击按钮切换图片
+                onclBtn(index);
+                //函数调用：自动切换方法
+                autoChange(index);
+                /********************函数的封装************************/
+                //创建方法：用于设置被选中的超链接
+                function setA(index){
+                    //判断当前索引是否是最后一张图片
+                    if(index == imgArr.length - 1){
+                        /* 进入判断以后显示最后一张图片，而在html中最后一张和第一张一样，
+                           要使最后一张变成第一张，需要在修改索引的同时更改left偏移量，
+                           就可以将最后一张瞬间换成第一张了 */
+                        index = 0;
+                        imgList.style.left = 0;
+                    }
+                    //将所有的超链接都设置红色
+                    for(var i=0; i<allA.length; i++)
+                    //为了让a:hover样式有效，这里设置为空串，这样样式表里a的样式就会生效
+                        allA[i].style.backgroundColor = "";
+                    //将被选中的超链接设置为蓝色
+                    allA[index].style.backgroundColor = "blue";
+                }
+                //创建方法：自动切换图片
+                function autoChange(index){
+                    //开启定时器，定时调用move函数(通过索引自增控制move的调用)
+                    timer = setInterval(function(){
+                        index++;
+                        //处理索引
+                        index %= imgArr.length;
+                       move(imgList, "left", -305*index, 10, function(){
+                           //图片切换后，修改导航条的颜色
+                           setA(index);
+                       });
+                    }, 3000);
+                }
+                //创建方法：点击按钮切换图片
+                function onclBtn(index){
+                    for(var i=0; i<allA.length; i++){
+                        //为每个超链接都添加num属性
+                        allA[i].num = i;
+                        allA[i].onclick = function(){
+                            //点击的同时需关闭自动切换
+                            clearInterval(timer);
+                            var index = this.num;
+                            setA(index);
+                            move(imgList, "left", -305*index, 10, function(){
+                                /* 点击按钮切换动画完毕后，再次开启自动切换,
+                                   且参数都设置index保证函数接口可以保持传值的连续性，
+                                   每次点击按钮之后，自动切换可以从点击按钮出开始往后执行 */
+                                autoChange(index);
+                            });
+                        }
+                    };
+                }
+            };
+            
+
+        </script>
+        <style type="text/css">
+            *{
+                margin: 0;
+                padding: 0;
+            }
+            #outer{
+                width: 300px;
+                height: 300px;
+                background-color: #bfa;
+                margin: 20px auto;
+                padding: 5px;
+                position: relative;
+                overflow: hidden;
+            }
+            #imgList{
+                width: 2000px;
+                list-style: none;
+                position: absolute;
+            }
+            li{
+                float: left;
+                margin: 0 5px 0 0;
+            }
+            img{
+                width:300px;
+                height: 300px;
+            }
+            #navDiv{
+                position: absolute;
+                left: 0;
+                right: 0;
+                margin: 0 auto;
+                bottom: 15px;
+            }
+            a{
+                float: left;
+                width: 10px;
+                height: 10px;
+                background-color: red;
+                margin-right: 5px;
+                border-radius: 30%;
+                /* 设置透明 */
+                opacity: 0.8;
+                /* 兼容IE8透明 */
+                filter: alpha(opacity=50);
+            }
+            a:hover{
+                background-color: blue;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="outer">
+            <!-- 创建图片列表 -->
+            <ul id="imgList">
+                <li><img src="../image02/fcz1.jpg" alt=""></li>
+                <li><img src="../image02/fcz2.jpg" alt=""></li>
+                <li><img src="../image02/fcz3.jpg" alt=""></li>
+                <li><img src="../image02/fcz4.jpg" alt=""></li>
+                <li><img src="../image02/fcz5.jpg" alt=""></li>
+                <li><img src="../image02/fcz6.jpg" alt=""></li>
+                <li><img src="../image02/fcz1.jpg" alt=""></li>
+            </ul>
+            <!-- 创建导航条 -->
+            <div id="navDiv">
+                <a href="javascript:;"></a>
+                <a href="javascript:;"></a>
+                <a href="javascript:;"></a>
+                <a href="javascript:;"></a>
+                <a href="javascript:;"></a>
+                <a href="javascript:;"></a>
+            </div>
+        </div>
+    </body>
+</html>

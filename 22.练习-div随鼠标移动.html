@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>div随鼠标指针移动</title>
+        <script type="text/javascript">
+            window.onload = function(){
+                var box1 = document.getElementById("box1");
+                var body = document.body;
+                //事件给整个文档绑定
+                document.onmousemove = function(event){
+                    /*************解决事件对象的兼容性 *************/
+                    event = event || window.event;
+                    /********************************************
+                    解决scrollTop和scrollLeft的兼容性：
+                       Chrome认为浏览器的滚动条是body的，
+                       而火狐等浏览器认为浏览器的滚动条是html的 
+                    *********************************************/
+                    var st = document.body.scrollTop || document.documentElement.scrollTop;
+                    var sl = document.body.scrollLeft || document.documentElement.scrollLeft;
+                    //将鼠标的坐标赋值给box1的偏移量(有滚动条的方向相差滚动的距离)
+                    box1.style.top = event.clientY + st + "px"; 
+                    box1.style.left = event.clientX + sl + "px";
+                };
+            };
+        </script>
+        <style type="text/css">
+            body{
+                width: 2000px;
+                height: 1000px;
+            }
+            #box1{
+                width: 100px;
+                height: 100px;
+                background-color: red;
+                position: absolute;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="box1"></div>
+    </body>
+</html>

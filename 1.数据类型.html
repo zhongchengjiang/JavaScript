@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据类型</title>
+</head>
+<script type="text/javascript">
+    /*
+      数据类型分类：
+      - 基本(值)类型： 
+        String: 任意字符串；
+        Number: 任意数字；
+        Boolean: true/false;
+        undefined: undefined;
+        null: null;
+      - 引用(对象)类型：
+        Object: 任意对象；
+        Function: 具有特殊功能可执行的对象；
+        Array: 特殊的对象(以数值为索引，内部数据是有序的);
+
+      数据类型的判断：
+      - typeof: 检测数据的类型，返回值为该数据类型的字符串形式；
+      - instanceof: 检查一个对象是否为一个类的实例；
+      - ===: 全等类型判断； 
+      
+      几个问题：
+      1.undefined与null的区别：
+      - undefined: 表示已定义但未赋值；
+      - null: 表示已定义且赋值，但值为null，专门用于表示空对象；
+      2.什么时候给变量赋值为null：
+      - 初始赋值null，表明将要赋值为对象；
+      - 结束时赋值null，让对象成为垃圾对象以便浏览器回收；
+      3.严格区分变量类型和数据类型：
+        由于js是弱语言，只用var就可以定义变量，所以：
+      - 数据类型包括：基本类型和对象类型；
+      - 变量类型：
+        基本类型：保存基本类型的数据；
+        引用类型：保存的是地址值；
+
+      各种进制的表示：
+      十六进制：0x56；八进制：056；二进制：0b56；
+
+      强制类型转换
+      - 转换为String
+        1 toString()方法：不影响原变量，会将转换结果返回，
+                          null和undefined没有这个方法, 转换会报错；
+        2 调用String()函数：被转换的数据作为参数，并将新字符串返回， 
+                           null和undefined转换为字符串"null"和“undefined”
+      - 转换为Number
+        1 调用Number()函数：被转换的数据作为参数，并将新数字返回，
+                           (1)纯数字字符串会转换为数字;
+                           (2)如果字符串中有非数字内容，则会转换为NaN；
+                           (3)如果是空串或0，则会转换为0；
+                           (4)true转换为1，false转换为0；
+                           (5)null转换为0，undefined转换为NaN；
+        2 parseInt()：将字符串中有效的整数内容提取出来，然后转换为number并返回，
+                      可以传递第二个参数来指定数字的进制；
+        3 parseFloat()：将字符串中有效的小数内容提取出来，然后转换为number并返回；
+        对非字符串使用parseInt()和parseFloat()，会先将其转换为字符串再操作；
+
+      - 转换为Boolean
+        调用Boolean()函数：被转换的数据作为参数，并将新的boolean值返回；
+        转换规则：
+          数字: 0和NaN --> false, 其他数字 --> true;
+          字符串：空串 --> false, 其他字符串 --> true;
+          null和undefined --> false;
+          对象object --> true;
+      
+
+     */
+    var b = null; //初始化赋值为null,表示将要赋值为对象  
+    b = [1, 3, 6]; //确定赋值
+    b = null;      //使用结束，让b指向垃圾对象(回收)
+    var a = 123;
+    a = a.toString(); //利用toString()方法将a转换为字符串
+    a = String(a);        //调用String()函数将a转换为字符串
+    var c = "123bdfs";
+    var d = "15.67gd";
+    c = Number(c);        //调用Number()函数将c转换为number
+    c = parseInt(c);      //将c中的123提取出来转换为number   
+    d = parseFloat(d);    //将d中的15.67提取出来转换为number
+    var e = 168.22;
+    e = parseInt(e);      //利用parseInt()对小数进行取整
+    var f = "0166.2fdf";
+    f = parseInt(f, 10);  //将字符串的整数部分取出来并转换为十进制数字
+    console.log(f);       //166
+    
+</script>
+<body>
+    
+</body>
+</html>

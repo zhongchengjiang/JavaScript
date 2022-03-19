@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"> 
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>函数作用域</title>
+        <script>
+            //函数作用域
+            //1.在函数作用域中可以访问全局的变量，而全局中不能访问函数中的变量；
+            var a = 30;
+            var b = 80;
+            function fun(){
+                var b = 15;
+                //函数中的声明提前
+                console.log("a="+a);        //a=undefined
+                //在函数中访问全局变量，使用 window.变量名
+                console.log("b="+window.b); //b=80
+                var a = 20;
+                function fun2(){
+                //函数相当于一个小的全局，当在函数中操作一个变量时，会先在自身中寻找，
+                //如果有就直接使用；如果没有则向上一级寻找,直至全局作用域，如果仍没有则报错；
+                    console.log("a="+a);    //a=20
+                }
+                fun2();
+            }
+            fun();
+
+            //2.函数作用域的转变
+            var c = 2;
+            function fun3(){
+                console.log("c="+c);  //c=2
+                //在函数中不使用var声明的变量都会变为全局变量；
+                //如：c未使用var关键字，则被设置为全局变量；
+                c = 10;
+            }
+            fun3();
+            console.log("c="+c);      //c=10
+
+            //3.形参：相当于在函数体中声明该变量；
+            function fun4(d){
+                console.log("d="+d);
+            }
+            fun4();               //d=undefined
+        </script>
+    </head>
+    <body>
+
+    </body>
+
+</html>

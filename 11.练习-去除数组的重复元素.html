@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <title>数组的去重练习</title>
+        <script>
+            //去除数组中重复的元素，只保留一个
+            var arr = [1,2,1,8,18,3,2,2,4,5,6,3,1,5,4,6];
+            function Del(Arr){
+                for(var i=0; i<arr.length; i++){
+                    for(var j=i+1; j<arr.length; j++){
+                        if(arr[i] == arr[j]){
+                            arr.splice(j,1);
+                            j--;
+                        }
+                    }
+                } 
+                return Arr;
+            }
+            var result = Del(arr);
+            console.log(result);
+        </script>
+    </head>
+    <body>
+        
+    </body>
+</html>

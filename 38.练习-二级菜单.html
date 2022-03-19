@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>练习-二级菜单</title>
+        <style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+				list-style-type: none;
+			}
+			a,img{
+				border: 0;
+				text-decoration: none;
+			}
+			body{
+				font: 12px/180% Arial, Helvetica, sans-serif, "新宋体";
+			}
+        </style>
+		<link rel="stylesheet" type="text/css" href="../submenu_css/sdmenu.css">
+		<script type="text/javascript" src="tools.js"></script>
+		<script type="text/javascript">
+			window.onload = function(){
+				/* 每个菜单都有一个div，当div具有collapsed这个类时，表示div为折叠状态，
+				   当div没有这个类时，div为展开状态 */
+				var menuSpan = document.querySelectorAll(".menuSpan");
+				//定义变量，保存当前打开的菜单
+				var openDiv = menuSpan[0].parentNode;
+				for(var i=0; i<menuSpan.length; i++){
+					menuSpan[i].onclick = function(){
+						var parentDiv = this.parentNode;
+						toggleMenu(parentDiv);
+						//打开菜单后，应关闭之前已打开的菜单
+						/* 如果二者相同，则toggleClass和addClass操作一加一减抵消，
+						   导致不能第二次打开同一个菜单，所以要判断：当二者相等时
+						   (即toggleClass和addClass对同一个菜单进行操作)，
+						   就不进行addClass操作；当二者不相等时(即对不同的菜单进行操作)，
+						   此时才进行addClass操作*/
+						if(openDiv != parentDiv && !hasClass(openDiv, "collapsed"))
+						/* 为了统一处理过渡效果，这里将addClass改为toggleClass，
+						   而不需要有移除功能，所以要在if中判断是否有该类,
+						   如果没有该类才进入判断，进而增加该类；如果有就不用增加该类了 */
+						   toggleMenu(openDiv);
+						/* 修改openDiv为当前打开的菜单；
+						   进入下一循环之前，将当前子菜单作为下一循环的起始打开菜单 */
+							openDiv = parentDiv;
+					};
+				}
+
+			};
+			//创建函数：用于切换菜单的过渡效果
+			function toggleMenu(obj){
+				//设置过渡效果：在切换之前获取parentDiv的高度
+				var begin = obj.offsetHeight;
+				//切换parentDiv的显示
+				toggleClass(obj, "collapsed");
+				//设置过渡效果：在切换之后再次获取parentDiv的高度
+				var end = obj.offsetHeight;
+				/* 动画效果就是将parentDiv的高度从begin向edd过渡 */
+				//将parentDiv的高度重置为begin
+				obj.style.height = begin + "px";
+				//此时parentDiv的高度为begin，执行move动画向end过渡
+				move(obj, "height", end, 10, function(){
+					//动画执行完毕之后，内联样式已经没有意义了，需删除
+					obj.style.height = "";
+				});
+			}
+        </script>
+    </head>
+    <body>
+        <div id="my_menu" class="sdmenu">
+			<div class=" collapsed">
+				<span class="menuSpan">在线工具</span>
+				<a href="#">图像优化</a>
+				<a href="#">收藏夹图标生成器</a>
+				<a href="#">邮件</a>
+				<a href="#">htaccess密码</a>
+				<a href="#">梯度图像</a>
+				<a href="#">按钮生成器</a>
+			</div>
+			<div class="collapsed">
+				<span class="menuSpan">支持我们</span>
+				<a href="#">推荐我们</a>
+				<a href="#">链接我们</a>
+				<a href="#">网络资源</a>
+			</div>
+			<div class="collapsed">
+				<span class="menuSpan">合作伙伴</span>
+				<a href="#">JavaScript工具包</a>
+				<a href="#">CSS驱动</a>
+				<a href="#">CodingForums</a>
+				<a href="#">CSS例子</a>
+			</div>
+			<div class="collapsed">
+				<span class="menuSpan">测试电流</span>
+				<a href="#">Current or not</a>
+				<a href="#">Current or not</a>
+				<a href="#">Current or not</a>
+				<a href="#">Current or not</a>
+			</div>
+		</div>
+    </body>
+</html>

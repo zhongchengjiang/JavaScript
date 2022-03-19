@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>定时器练习-切换图片</title>
+        <script type="text/javascript">
+            window.onload = function(){
+                //创建数组保存图片的路径
+                var imgArr = ["../image02/fcz1.jpg","../image02/fcz2.jpg","../image02/fcz3.jpg",
+                              "../image02/fcz4.jpg","../image02/fcz5.jpg","../image02/fcz6.jpg"];
+                //创建变量保存当前图片的索引
+                var index = 0;
+                //获取img标签名
+                var img = document.getElementsByTagName("img")[0];
+                //创建变量保存定时器标识
+                var timer;
+                
+                //点击开始按钮时，才启动定时器切换图片
+                var btn01 = document.getElementById("btn01");
+                btn01.onclick = function(){
+                    /* 每点击一次按钮就会开启一次定时器，点击多次就会开启多个定时器，
+                       这就导致图片切换速度过快，并且只能关闭最后一个定时器，所以，
+                       在开启当前定时器之前，需将当前元素的其他定时器关闭*/
+                    clearInterval(timer);
+                    //开启定时器，用于切换图片
+                    timer = setInterval(function(){
+                        index++;
+                        //将索引控制在0~length范围内（索引边界）
+                        index %= imgArr.length;
+                        img.src = imgArr[index];
+                    }, 1000);
+                };
+                //点击停止按钮时，关闭定时器
+                var btn02 = document.getElementById("btn02");
+                btn02.onclick = function(){
+                    clearInterval(timer);
+                };
+            };
+        </script>
+
+        <style type="text/css">
+            #outer{
+                width: 210px;
+                height: 310px;
+                margin: 10px auto;
+                background-color: pink;
+                padding: 10px;
+                text-align: center;
+            }
+            img{
+                width: 200px;
+                height: 300px;
+                margin: 10px auto;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="outer">
+            <img src="../image02/fcz1.jpg" alt="复仇者联盟">
+            <button id="btn01">开始</button>
+            <button id="btn02">停止</button>
+        </div>
+    </body>
+</html>

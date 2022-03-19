@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>通过键盘的方向键控制移动div</title>
+        <script type="text/javascript">
+            window.onload = function(){
+                /* 按左键，div向左移动；按右键，div向右移动... 
+                   先获取方向键的编码值：上38、下40、左37、右39,
+                   再根据值判断方向进而移动div*/
+                var box1 = document.getElementById("box1");
+                document.onkeydown = function(event){
+                    event = event || window.event;
+                    //定义一个变量用于控制速度
+                    var speed = 10;
+                    //当用户按下Ctrl时，速度加快
+                    if(event.ctrlKey)
+                        speed += 30;
+                    switch(event.keyCode){
+                        case 37:
+                            box1.style.left = box1.offsetLeft - speed + "px";
+                            break;
+                        case 38:
+                            box1.style.top = box1.offsetTop - speed + "px";   
+                            break;    
+                        case 39:
+                            box1.style.left = box1.offsetLeft + speed +"px";
+                            break;
+                        case 40:
+                            box1.style.top = box1.offsetTop + speed + "px";
+                            break;
+                    }
+                };
+            };
+        </script>
+        <style type="text/css">
+            #box1{
+                width: 100px;
+                height: 100px;
+                background-color: red;
+                position: absolute;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="box1"></div>
+    </body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="device-width, initial-scale=1.0">
+        <title>DOM查询的其他剩余方法</title>
+        <script>
+            window.onload = function(){
+            //getElementsByClassName(): 根据元素的class属性值查询一组元素节点对象(不支持IE8及以下)    
+                var box1 = document.getElementsByClassName("box1");    
+            //document.querySelector(): 根据css选择器查询一个元素节点对象；参数：选择器字符串；
+            //                          支持IE8，该方法只会返回唯一的一个元素，如果有多个元素满足条件，
+            //                          则只会返回第一个元素；
+                var div = document.querySelector(".box1 div"); //选择.box1下的div标签  
+                console.log(div.innerHTML);
+                box1 = document.querySelector(".box1"); //  123 
+                console.log(box1.innerHTML);            //  <div>123</div>
+            //document.querySelectorAll(): 用法和querySelector类似，不同点在于该方法可以返回类数组；    
+                box1 = document.querySelectorAll(".box1");
+                console.log(box1.length);              //4
+            };
+        </script>
+    </head>
+    <body>
+        <div class="box1">
+            <div>123</div>
+        </div>
+        <div class="box2"></div>
+        <div class="box1"></div>
+        <div class="box1"></div>
+        <div class="box3"></div>
+        <div class="box1"></div>
+   
+    </body>
+</html>

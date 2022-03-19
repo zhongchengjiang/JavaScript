@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="">
+        <title>JS对象练习</title>
+        <script>
+            //创建对象（方法一）
+            //new相当于C语言里的动态内存分配（存储在堆空间中）；
+            //但是，每创建一个对象，就会重新分配一个新的动态内存空间
+            var obj = new Object();
+            var obj2 = new Object();
+            console.log(obj == obj2);  //结果：false
+
+            //增加对象的属性
+            obj.name = "孙悟空";
+            obj.age = 18;
+            obj.gender = "男";
+            obj2.name = "猪八戒";
+            console.log(obj.name);    //结果：孙悟空
+            
+            //删除对象的属性
+            delete obj.name;
+            console.log(obj.name);    //结果：undefined
+
+            //使用特殊的属性名：这种方式可以传递变量，更加灵活
+            var n = "length";
+            obj2["length"] = 80;
+            console.log(obj2[n]);    //结果：80
+
+            //属性值可以是任何类型，包括对象
+            obj.test = obj2;
+            console.log(obj.test.name); //结果：猪八戒
+
+            //检查对象中是否有指定属性
+            console.log("size" in obj);  //结果：false
+            console.log("age" in obj2);  //结果：false
+
+            //obj2和obj都指向了同一片堆内存，所以修改obj的属性时，obj2的属性也随之改变
+            obj2 = obj;
+            obj.name = "沙和尚";
+            console.log(obj.name);       //结果：沙和尚
+            console.log(obj2.name);      //结果：沙和尚
+
+            //创建对象(方法二)
+            //对象也可以嵌套
+            var obj = {
+                name:"唐三藏",
+                age:18,
+                gender:"男",
+                test:{
+                    name:"白骨精",
+                    age:45,
+                    gender:"女"
+                }
+            }
+            console.log(obj.test);
+
+            //创建对象（方法三）
+            //使用工厂方法
+            function createPerson(name, age, gender){
+                //创建一个新的对象
+                var ob = new Object();
+                //向对象中添加属性和方法
+                ob.name = name;
+                ob.age = age;
+                ob.gender = gender;
+                ob.sayName = function(){
+                    console.log(this.name);
+                };
+                //将新对象返回
+                return ob;
+            }
+            var ob2 = createPerson("孙悟空", 18, "男");
+            var ob3 = createPerson("猪八戒", 25, "男");
+            var ob4 = createPerson("沙和尚", 16, "男");
+            console.log(ob2);
+            console.log(ob3);
+            console.log(ob4);
+            ob2.sayName();
+        </script>
+       
+    </head>
+    <body>
+        
+    </body>
+
+</html>

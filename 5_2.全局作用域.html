@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UFT-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>全局作用域与函数作用域</title>
+        <script>
+            //在全局作用域中
+            //创建的变量都会作为window对象的属性保存;
+            //创建的函数都会作为window对象的方法保存；
+            var a = 56;
+            console.log("a="+window.a); //a=56
+            function fun1(){
+                console.log("是fun函数");
+            }
+            window.fun1();          //是fun函数
+
+            //变量的声明提前
+            //用var关键字声明的变量，会在所有代码执行之前被声明，但是不会被赋值
+            //如果声明变量时不使用var,则不会声明提前
+            console.log("b="+b);   //b=undefined
+            var b = 13;
+
+            //函数声明会被提前创建
+            //使用函数声明方式(如fun2)创建的函数，会在所有代码执行之前被创建，所以可以在函数声明前调用；
+            fun2();          //这是fun2函数
+            function fun2(){
+                console.log("这是fun2函数");
+            }
+            
+            //函数表达式不会被提前创建
+            //使用函数表达式(如fun3)创建的函数，不会声明提前
+            fun3();          //报错       
+            var fun3 = function(){
+                console.log("这是fun3函数");
+            };
+
+            
+
+            </script>
+    </head>
+    <body>
+        
+    </body>
+</html>

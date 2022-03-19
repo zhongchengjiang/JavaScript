@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>定时器应用</title>
+        <script type="text/javascript" src="tools.js"></script>
+        <script type="text/javascript">
+            window.onload = function(){
+                var btn01 = document.getElementById("btn01");
+                var btn02 = document.getElementById("btn02");
+                var btn03 = document.getElementById("btn03");
+                var btn04 = document.getElementById("btn04");
+                var box1 = document.getElementById("box1");
+                var box2 = document.getElementById("box2");
+                //点击该按钮使box1向右移动
+                btn01.onclick = function(){
+                    move(box1, "left", 800, 10);
+                };
+                //点击该按钮使box1向左移动
+                btn02.onclick = function(){
+                    move(box1, "left", 0, 10);
+                };
+                //点击该按钮使box2向右移动
+                btn03.onclick = function(){
+                    move(box2, "left", 800, 20);
+                };
+                //测试按钮(利用回调函数进行函数的套用，box2先变宽再变长再向上移动)
+                btn04.onclick = function(){
+                    move(box2, "width", 800, 10, function(){
+                        move(box2, "height", 500, 10, function(){
+                            move(box2, "top", 0, 15, function(){});
+                        });
+                    });
+                };
+            };
+
+            /* 创建改变box样式的函数:
+               参数
+                - obj: 要执行动画的对象；
+                - attr: 要执行动画的样式；
+                - target: 执行动画的目标位置；
+                - speed: 移动速度;
+                - callback: 回调函数，在动画执行完毕后执行*/
+            function move(obj, attr, target, speed, callback){
+                //关闭上一个定时器
+                clearInterval(obj.timer);
+                //获取当前的left值
+                var current = parseInt(getStyle(obj, attr));
+                /*判断速度的正负：如果从0向800移动，则速度为正值；
+                                如果从800向0移动，则速度为负值 */
+                if(current > target)
+                    speed = -speed;
+                /* 如果在全局作用域中定义timer，则所有正在执行的定时器都在timer中保存，
+                   这就导致timer不会同时在多个对象中执行，基于此，我们向执行动画的对象中
+                   添加timer属性，用于保存自身的定时器标识，这样不同的对象都拥有自己了的定时器 */    
+                obj.timer = setInterval(function(){
+                    var oldValue = parseInt(getStyle(obj, attr));
+                    var newValue = oldValue + speed;
+                    /* 向左移动时，判断newValue是否小于target(依据是速度小于0);
+                       向右移动时，判断newValue是否大于target(依据是速度大于0) */
+                    if((speed<0 && newValue<target) || (speed>0 && newValue>target))
+                        newValue = target;
+                    obj.style[attr] = newValue + "px";
+                    if(newValue == target){
+                        clearInterval(obj.timer);
+                        /*(1)动画执行完毕后，调用回调函数;
+                          (2)一定要确认动画结束时调用，即在if语句中;
+                          (3)满足用户需求，如果有回调函数就传，如果没有就不传；*/
+                       callback && callback();    
+                    }
+                }, 30);
+            }
+        </script>
+        <style type="text/css">
+            *{
+                margin: 0;
+                padding: 0;
+            }
+            #box1{
+                width: 100px;
+                height: 100px;
+                background-color: pink;
+                margin-top: 25px;
+                position: absolute;
+                left: 0;
+            }
+            #box2{
+                width: 100px;
+                height: 100px;
+                background-color: yellowgreen;
+                margin-top: 25px;
+                position: absolute;
+                left: 0;
+                top: 200px;
+            }
+            #line{
+                width: 1px;
+                height: 500px;
+                background-color: black;
+                margin-left: 800px;
+            }
+        </style>
+    </head>
+    <body>
+        <button id="btn01">点击按钮box1向右移动</button>
+        <button id="btn02">点击按钮box1向左移动</button>
+        <button id="btn03">点击按钮box2向右移动</button>
+        <button id="btn04">测试按钮</button>
+        <div id="box1"></div>
+        <div id="box2"></div>
+        <div id="line"></div>
+    </body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>改进移动div</title>
+        <script type="text/javascript">
+            /* 问题分析：
+               因键盘有防止误操作的功能，所以每次按下方向键时会出现短暂的停顿，
+               而定时器会完美解决这种短暂的停顿现象 */
+            window.onload = function(){
+                var box1 = document.getElementById("box1");
+                //定义一个变量用于控制速度
+                var speed = 10;
+                //定义一个变量表示方向，修改dir的值就可以改变div的移动方向
+                var dir = 0;
+                
+                /* 创建一个定时器，只控制移动和速度(相当于一直原地滚动)，
+                   而不考虑方向(dir控制方向，当为dir赋值方向时，div就会移动了) */
+                setInterval(function(){
+                    switch(dir){
+                        case 37:
+                            box1.style.left = box1.offsetLeft - speed + "px";
+                            break;
+                        case 38:
+                            box1.style.top = box1.offsetTop - speed + "px";   
+                            break;    
+                        case 39:
+                            box1.style.left = box1.offsetLeft + speed +"px";
+                            break;
+                        case 40:
+                            box1.style.top = box1.offsetTop + speed + "px";
+                            break;
+                    }
+                },30);
+
+                //当按下方向键时，改变dir的值从而控制div的方向
+                document.onkeydown = function(event){
+                    event = event || window.event;
+                    /* 当用户按下Ctrl时，速度加快
+                      (因speed是全局变量，当松开Ctrl时，speed已经被赋值为30，
+                       所以松开Ctrl时还需改回原来的速度) */
+                    if(event.ctrlKey)
+                        speed = 30;
+                    else
+                        speed = 10;    
+                    //为dir赋值，以控制div的方向    
+                    dir = event.keyCode;
+                };
+                //当松开方向键时，div停止移动
+                document.onkeyup = function(){
+                    dir = 0;
+                };
+            };
+        </script>
+        <style type="text/css">
+            #box1{
+                width: 100px;
+                height: 100px;
+                background-color: red;
+                position: absolute;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="box1"></div>
+    </body>
+</html>

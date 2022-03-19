@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">  
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>BOM简介</title>
+        <script type="text/javascript">
+            /* 
+               BOM：浏览器对象模型，通过js操作浏览器；
+               BOM对象：
+               Window: 表示整个浏览器的窗口，同时也是网页中的全局对象；
+                       BOM对象都是作为window对象的属性保存，
+                       可通过wIndow对象使用（此时作为window的属性），
+                       也可直接使用（此时作为全局变量）
+                Screen: 表示用户的屏幕信息，通过该对象可以获取用户的显示器相关信息；
+            */
+            window.onload = function(){
+                /* Navigator: 
+                    (1)表示当前浏览器的信息，通过该对象可以识别不同的浏览器;
+                    (2)由于历史原因，该对象的大多数属性已经不能识别不同浏览器了;
+                    (3)一般只有通过userAgent属性来识别;
+                    (4)而IE11已经将标识去除了，所以该属性已经无法判断IE11浏览器了,
+                       此时只有通过浏览器特有的一些对象来判断浏览器的信息，
+                       如ActiveXObject是IE11中的特有对象； */
+                //获取navigator的userAgent属性，用于识别不同的浏览器
+                var ua = navigator.userAgent;
+                if(/firefox/i.test(ua))
+                    alert("你是火狐");
+                else if(/chrome/i.test(ua))
+                    alert("你是Chrome");
+                else if(/msie/i.test(ua))
+                    alert("你是旧版IE");    
+                else if("ActiveXObject" in window)
+                    alert("你是IE11");
+
+                /* History: 
+                   (1)表示浏览器的历史记录，由于隐私原因，该对象不能获取具体的历史记录，
+                   (2)用于操作浏览器向前或向后翻页，且该操作只在当次访问时有效；
+                   (3)属性和方法
+                      - history.length: 获取当前访问的链接数量；
+                      - history.back(): 回退到上一页面(作用和浏览器的回退按钮一样)；
+                      - history.forward(): 跳转到上一页面(作用和浏览器的前进按钮一样)；
+                      - history.go(): 跳转到指定页面，整数作为参数表示跳转页面的数量，
+                                      正数表示向前跳转(同forward)，负数表示回退(同back)；
+                */
+                var btn = document.getElementById("btn");
+                btn.onclick = function(){
+                    alert(history.length);  
+                    history.back();
+                    history.forward();
+                    history.go(1);  //向前跳转一个页面
+                    history.go(2);  //向前跳转两个页面
+                    history.go(-1); //向后回退一个页面 
+                    history.go(-2); //向后回退两个页面
+                };
+
+               /*Location: 
+                 (1)表示并操作当前浏览器的地址栏信息,如果直接打印location则获取完整的地址路径
+                 (2）如果将location修改为完整路径或相对路径，则页面会自动跳转至该路径
+                     并生成相应的历史记录；
+                 (3)方法：
+                    - location.assign(): 用于跳转至其他页面，作用和修改location路径一样；
+                    - location.reload(): 用于重新加载当前页面，作用和刷新按钮一样；
+                                         如果需要强制清空缓存刷新页面，则参数应设为true；
+                    - location.replace(): 用参数中的路径替换当前页面，需注意的是它不会生成历史记录；
+                */
+                var btn02 = document.getElementById("btn02");
+                btn02.onclick = function(){
+                   console.log(location);
+                   location = "http://www.baidu.com";
+                   location = "事件的冒泡.html";
+                   location.assign("http://www.baidu.com");
+                   location.reload(true);    //参数为true时，用于强制清空缓存刷新页面
+                   location.replace("http://www.xiaomi.com"); //跳转至参数中的小米页面，但不会再生成历史记录 
+                }; 
+            }; 
+        </script>
+    </head>
+    <body>
+        <button id="btn">点我一下</button>
+        <button id="btn02">获取location</button>
+    </body>
+</html>

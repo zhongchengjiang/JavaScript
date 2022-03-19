@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>JS-this练习</title>
+        <script>
+            //解析器在调用函数时，每次都会向其内部传递一个参数this；
+            //this指向的是一个对象，根据调用方式不同，this指向不同的对象：
+
+            //1.以函数的形式调用时，this是Window；
+            var n = 10;
+            function fun(){
+                var n = 20;
+                console.log(this.n);
+            }
+            fun();  //10  此时console.log(this.name) 等价于 console.log(window.name)
+            
+            //2.以方法的形式调用时，this是调用方法的对象；
+            function fun2(){
+                console.log(this.name);
+            }
+            var obj = {
+                name:"孙悟空",
+                sayName:fun2
+            }
+            var obj2 = {
+                name:"猪八戒",
+                sayName:fun2
+            }
+            obj.sayName();
+            obj2.sayName();
+
+            //3.以构造函数调用时，this是新创建的那个对象；
+
+            //4.使用函数对象的call和apply方法时，this指向第一个参数指定的那个对象；
+            /* call和apply如同函数的挂钩，挂钩挂到哪里，哪里就是this；
+                并且在执行call和apply方法时，会完成两个步骤：
+                (1)此函数照常执行  (2)this同时指向第一个参数； */
+
+            //call和apply：二者都是函数对象的方法，需要通过函数对象来调用；
+            function fun3(){
+                console.log(this);
+            }
+            //第一个参数：都可以设置为this指定的对象,该参数就是this指定的这个对象；
+            fun3.call(window);        //window
+            fun3.call(obj);           //{name: '孙悟空', sayName: ƒ}
+            fun3.call(obj2);          //{name: '猪八戒', sayName: ƒ}
+            //后面的参数：call()后面的参数为实参，apply()将实参先封装在数组中再传递；
+            fun3.call(obj, 2, 34);
+            fun3.apply(obj, [2, 34]);
+            var obj3 = {
+                name:"obj3",
+                sayName:function(){
+                    console.log(this.name);
+                }
+            }
+            var obj4 = {
+                name:"obj4",
+                sayName:function(){
+                    console.log(this.name);
+                }
+            }
+            obj3.sayName.call(obj4);   //obj4
+            obj3.sayName.apply(obj4);  //obj4
+            obj4.sayName.call(obj3);   //obj3
+            obj4.sayName.apply(obj3);  //obj3
+            //5.在事件绑定函数中，this是被绑定的那个对象；
+        </script>
+    </head>
+    <body>
+        
+    </body>
+</html>

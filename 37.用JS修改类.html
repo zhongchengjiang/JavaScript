@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>类的操作</title>
+        <script type="text/javascript">
+            window.onload = function(){
+                //获取btn01和box1
+                var btn01 = document.getElementById("btn01");
+                var box1 = document.getElementById("box1");
+                btn01.onclick = function(){
+                    /* 通过修改一行代码来改变多个样式；
+                     通过修改元素的class属性来间接修改多个样式，浏览器只需渲染一次即可，
+                     同时行为和表现可以分离，在开发中，尽量改类，特殊情况下再使用style */
+                    alert(hasClass(box1, "b2"));
+                    addClass(box1, "b2");
+                    removeClass(box1, "b2");
+                    toggleClass(box1, "b3");      
+                };
+            };
+
+            //创建函数：判断是否有某个类
+            function hasClass(obj, cn){
+                var reg = new RegExp("\\b"+cn+"\\b");
+                return reg.test(obj.className);    
+            }
+            //创建函数：用于增加一个类
+            function addClass(obj, cn){
+                if(!hasClass(obj, cn))
+                    obj.className += " "+cn;
+            }
+            //创建函数：用于删除某个类
+            function removeClass(obj, cn){
+                var reg = new RegExp("\\b"+cn+"\\b");
+                obj.className = obj.className.replace(reg, "");
+            }
+            //创建函数：用于切换类（如果有该类则删除，没有就切换）
+            function toggleClass(obj, cn){
+                if(hasClass(obj, cn))
+                    removeClass(obj, cn);
+                else
+                    addClass(obj, cn);    
+            }
+        </script>
+
+        <style type="text/css">
+            .b1{
+                width: 100px;
+                height: 100px;  
+                background-color: red;
+            }
+            .b2{
+                width: 200px;
+                height: 200px;
+                background-color: yellow;
+            }
+            .b3{
+                border: 5px solid blue;
+            }
+        </style>
+        <body>
+            <button id="btn01">类的操作</button>
+            <div id="box1" class="b1"></div>
+        </body>
+    </head>
+</html>
